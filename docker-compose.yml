@@ -1,0 +1,51 @@
+version: '3'
+services:
+  app:
+    container_name: sber_invest_bot
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - DATABASE_HOST=${DB_HOST}
+      - DATABASE_PORT=${DB_PORT}
+      - TEST_POSTGRES_USER=${TEST_DB_USER}
+      - TEST_POSTGRES_PASSWORD=${TEST_DB_PASSWORD}
+      - TEST_POSTGRES_DB=${TEST_DB_NAME}
+      - TEST_DATABASE_HOST=${TEST_DB_HOST}
+      - TEST_DATABASE_PORT=${TEST_DB_PORT}
+    tty: true
+    build: .
+    # ports:
+    #   - '8081:8081'
+    restart: on-failure
+    volumes:
+      - .:/app
+    depends_on:
+      - postgresdb
+    networks:
+      - learning
+
+  postgresdb:
+    image: postgres:latest
+    container_name: postgres_container
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - DATABASE_HOST=${DB_HOST}
+    ports:
+      - '1234:5432'
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/1-init.sql
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - learning
+
+volumes:
+  pg_data:
+    # driver: local
+
+# Networks to be created to facilirate communication between containers
+networks:
+  learning:
+    driver: bridge

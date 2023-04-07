@@ -1,0 +1,24 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 1234,
+            "driver": "PostgreSQL",
+            "name": "tbot",
+            "database": "postgresdb",
+            "username": "postgres",
+            "password": "postgres"
+        },
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 4567,
+            "driver": "PostgreSQL",
+            "name": "tbot pg test",
+            "database": "postgresdb_test",
+            "username": "postgres",
+            "password": "postgres"
+        }
+    ]
+}
